@@ -22,13 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function init() {
         // Hide loading screen after 3 seconds
         setTimeout(() => {
-            loadingScreen.style.opacity = '0';
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-            }, 500);
-        }, 3000);
-
-        setTimeout(() => {
             showMusicPopup();
         }, 3500);
 
