@@ -131,25 +131,34 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     }
 
-    // AUDIO CONTROL
-    function setupVoiceMessage() {
-        voiceBtn.addEventListener("click", function () {
-            if (voiceMessage.paused) {
-                bgMusic.volume = 0.1;
-                voiceMessage.play()
-                    .then(() => {
-                        playIcon.classList.replace("fa-play", "fa-pause");
-                    })
-                    .catch(e => {
-                        alert('Izinkan audio di browser yaa');
-                    });
-            } else {
-                voiceMessage.pause();
-                bgMusic.volume = 1.0;
-                playIcon.classList.replace("fa-pause", "fa-play");
-            }
-        });
+    let isPlaying = false;
+
+voiceButton.addEventListener('click', () => {
+    if (!isPlaying) {
+        // Kecilkan volume backsound
+        if (bgMusic && !bgMusic.paused) {
+            bgMusic.volume = 0.1; // Kecilkan backsound
+        }
+
+        // Mainkan suara narasi
+        voiceAudio.play();
+        playIcon.classList.remove('fa-play');
+        playIcon.classList.add('fa-pause');
+        btnText.textContent = 'Klik lagi untuk berhenti yaa...';
+        isPlaying = true;
+    } else {
+        // Kembalikan volume backsound
+        bgMusic.volume = 1.0;
+
+        // Hentikan suara narasi
+        voiceAudio.pause();
+        voiceAudio.currentTime = 0;
+        playIcon.classList.remove('fa-pause');
+        playIcon.classList.add('fa-play');
+        btnText.textContent = 'Bacanya sambil klik ini yaa...';
+        isPlaying = false;
     }
+});
 
     // Typing animation
     function typeWriter(text, element, speed = 100) {
