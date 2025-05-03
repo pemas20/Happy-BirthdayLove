@@ -19,36 +19,40 @@ document.addEventListener('DOMContentLoaded', function() {
     const btnText = document.getElementById("btn-text");
 
     // Initialize
-    function init() {
-        // Hide loading screen after 3 seconds
+  function init() {
+    // Hide loading screen after 3 seconds
+    setTimeout(() => {
+        loadingScreen.style.opacity = '0';
+
         setTimeout(() => {
-            showMusicPopup();
-        }, 3500);
+            loadingScreen.style.display = 'none';
+            showMusicPopup(); 
+        }, 500);
 
-          loadingScreen.style.display = 'none';
-        showMusicPopup(); 
-      }, 500);
     }, 3000);
-  }
 
-        // Setup navigation
-        setupNavigation();
-        
-        // Start countdown
-        startCountdown();
-        
-        // Setup music control
-        setupMusicControl();
-        
-        // Setup voice message
-        setupVoiceMessage();
-        
-        // Typing animation for message
-        typeWriter("Terima kasih telah menjadi wanita terbaik dalam hidupku", messageElement, 50);
-        
-        // Create floating hearts
-        createFloatingHearts();
-    }
+    // Setup navigation
+    setupNavigation();
+    
+    // Start countdown
+    startCountdown();
+    
+    // Setup music control
+    setupMusicControl();
+    
+    // Setup voice message
+    setupVoiceMessage();
+
+    // Setup video popup
+    setupVideoPopup();
+
+    // Typing animation for message
+    typeWriter("Terima kasih telah menjadi wanita terbaik dalam hidupku", messageElement, 50);
+    
+    // Create floating hearts
+    createFloatingHearts();
+}
+
 
     // Show music popup
     function showMusicPopup() {
