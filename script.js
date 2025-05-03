@@ -155,34 +155,77 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Voice message control
-    function setupVoiceMessage() {
-        voiceBtn.addEventListener("click", function() {
-            if (voiceMessage.paused) {
-                bgMusic.volume = 0.1; // Very low but not muted
-                voiceMessage.play()
-                    .then(() => {
-                        playIcon.classList.replace("fa-play", "fa-pause");
-                        btnText.textContent = "Jeda Pesan";
-                    })
-                    .catch(error => {
-                        console.log('Voice message playback error:', error);
-                        alert('Gagal memutar pesan suara. Pastikan browser mendukung audio.');
-                    });
-            } else {
-                voiceMessage.pause();
-                bgMusic.volume = 1;
-                playIcon.classList.replace("fa-pause", "fa-play");
-                btnText.textContent = "Putar Pesan Suara";
-            }
-        });
-        
-        voiceMessage.addEventListener("ended", function() {
-            bgMusic.volume = 1;
+   // POPUP MUSIK
+function showMusicPopup() {
+    const popup = document.getElementById('music-popup');
+    popup.classList.add('active');
+
+    document.getElementById('enable-music').onclick = () => {
+        bgMusic.play()
+            .then(() => {
+                musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+                popup.classList.remove('active');
+            })
+            .catch(e => {
+                alert('Klik tombol speaker nanti yaa');
+                popup.classList.remove('active');
+            });
+    };
+
+    document.getElementById('disable-music').onclick = () => {
+        popup.classList.remove('active');
+    };
+}
+
+// POPUP VIDEO
+function setupVideoPopup() {
+    const video = document.querySelector('video');
+    const popup = document.getElementById('video-popup');
+
+    video.addEventListener('play', () => {
+        if (!bgMusic.paused) {
+            popup.classList.add('active');
+        }
+    });
+
+    document.getElementById('pause-for-video').onclick = () => {
+        bgMusic.pause();
+        musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        popup.classList.remove('active');
+    };
+
+    document.getElementById('continue-music').onclick = () => {
+        popup.classList.remove('active');
+    };
+}
+
+// AUDIO CONTROL
+function setupVoiceMessage() {
+    voiceBtn.addEventListener("click", function() {
+        if (voiceMessage.paused) {
+            bgMusic.volume = 0.1; // Volume kecil (10%)
+            voiceMessage.play()
+                .then(() => {
+                    playIcon.classList.replace("fa-play", "fa-pause");
+                })
+                .catch(e => {
+                    alert('Izinkan audio di browser yaa');
+                });
+        } else {
+            voiceMessage.pause();
+            bgMusic.volume = 1.0; // Volume normal
             playIcon.classList.replace("fa-pause", "fa-play");
-            btnText.textContent = "Putar Pesan Suara";
-        });
-    }
+        }
+    });
+}
+
+// INITIALIZE
+function init() {
+    // ... kode lain tetap sama ...
+    showMusicPopup();
+    setupVideoPopup();
+    setupVoiceMessage();
+}
     
     // Typing animation
     function typeWriter(text, element, speed = 100) {
