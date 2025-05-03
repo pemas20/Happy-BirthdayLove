@@ -2,36 +2,12 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Untuk Sayangku</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<!-- Popup Backsound Awal -->
-<div id="music-popup" class="popup-container">
-    <div class="popup-content">
-      <h3>Nyalakan backsound?</h3>
-      <p>nyalain backsound yaa sayangkuu ❤️</p>
-      <div class="popup-buttons">
-        <button id="enable-music">Ya, nyalakan</button>
-        <button id="disable-music">Nanti dulu</button>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Popup Video -->
-  <div id="video-popup" class="popup-container">
-    <div class="popup-content">
-      <h3>Mau nonton video?</h3>
-      <p>Matikan backsound dulu biar suara videonya jelas yaa sayangkuu ❤️</p>
-      <div class="popup-buttons">
-        <button id="pause-for-video">Matikan backsound</button>
-        <button id="continue-music">Tetap nyala</button>
-      </div>
-    </div>
-  </div>
-
 <body>
     <!-- Loading Screen -->
     <div class="loading-screen">
@@ -138,7 +114,6 @@
                 </div>
             </div>
         </div>
-        
     </section>
 
     <!-- Message Section -->
@@ -172,32 +147,32 @@
         </div>
     </section>
 
-   <!-- Video Section -->
-<section id="video" class="section">
-    <div class="video-bg-overlay"></div>
-    <div class="container">
-        <h2 class="section-title">Video akuu</h2>
-        
-        <div class="video-wrapper">
-            <div class="video-container">
-                <div class="video-frame">
-                    <video controls poster="assets/video/poster.jpg">
-                        <source src="vidio.mp4" type="video/mp4">
-                        Browser Anda tidak mendukung tag video.
-                    </video>
-                    <div class="video-glare"></div>
+    <!-- Video Section -->
+    <section id="video" class="section">
+        <div class="video-bg-overlay"></div>
+        <div class="container">
+            <h2 class="section-title">Video akuu</h2>
+            
+            <div class="video-wrapper">
+                <div class="video-container">
+                    <div class="video-frame">
+                        <video controls playsinline muted poster="assets/video/poster.jpg">
+                            <source src="vidio.mp4" type="video/mp4">
+                            Browser Anda tidak mendukung tag video.
+                        </video>
+                        <div class="video-glare"></div>
+                    </div>
                 </div>
+                <p class="video-caption">HEHHEEH semogaa dengan surprise aku ini kamuu sukaa yaa sayanggg >_<</p>
             </div>
-            <p class="video-caption">HEHHEEH semogaa dengan surprise aku ini kamuu sukaa yaa sayanggg >_<</p>
+            
+            <div class="video-hearts">
+                <div class="heart"></div>
+                <div class="heart"></div>
+                <div class="heart"></div>
+            </div>
         </div>
-        
-        <div class="video-hearts">
-            <div class="heart"></div>
-            <div class="heart"></div>
-            <div class="heart"></div>
-        </div>
-    </div>
-</section>
+    </section>
 
     <!-- Audio Control -->
     <div class="audio-control">
