@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         setTimeout(() => {
             showMusicPopup();
-        }, 3500); // Setelah loading screen hilang
+        }, 3500);
 
         // Setup navigation
         setupNavigation();
@@ -51,27 +51,29 @@ document.addEventListener('DOMContentLoaded', function() {
         createFloatingHearts();
     }
 
-    // Fungsi baru untuk popup musik
-function showMusicPopup() {
-    const musicPopup = document.getElementById('music-popup');
-    musicPopup.classList.add('active');
-    
-    document.getElementById('enable-music').addEventListener('click', function() {
-        bgMusic.play()
-            .then(() => {
-                musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
-                musicPopup.classList.remove('active');
-            })
-            .catch(error => {
-                console.log('Audio playback error:', error);
-                musicPopup.classList.remove('active');
-            });
-    });
-    
-    document.getElementById('disable-music').addEventListener('click', function() {
-        musicPopup.classList.remove('active');
-    });
-}
+    // Show music popup
+    function showMusicPopup() {
+        const musicPopup = document.getElementById('music-popup');
+        musicPopup.classList.add('active');
+        
+        document.getElementById('enable-music').addEventListener('click', function() {
+            bgMusic.muted = false;
+            bgMusic.play()
+                .then(() => {
+                    musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+                    musicPopup.classList.remove('active');
+                })
+                .catch(error => {
+                    console.log('Audio playback error:', error);
+                    musicPopup.classList.remove('active');
+                });
+        });
+        
+        document.getElementById('disable-music').addEventListener('click', function() {
+            musicPopup.classList.remove('active');
+        });
+    }
+
     // Navigation setup
     function setupNavigation() {
         navLinks.forEach(link => {
@@ -154,20 +156,10 @@ function showMusicPopup() {
     }
     
     // Voice message control
- function setupVoiceMessage() {
-    const voiceBtn = document.getElementById("voiceBtn");
-    const voiceMessage = document.getElementById("voiceMessage");
-    const bgMusic = document.getElementById("bgMusic");
-    const playIcon = document.getElementById("playIcon");
-    const btnText = document.getElementById("btnText");
-
-    voiceBtn.addEventListener("click", function () {
-        if (voiceMessage.paused) {
-            // Turunkan volume backsound
-            bgMusic.volume = 0.05;
-
-            // Tambahkan sedikit delay sebelum memutar pesan suara
-            setTimeout(() => {
+    function setupVoiceMessage() {
+        voiceBtn.addEventListener("click", function() {
+            if (voiceMessage.paused) {
+                bgMusic.volume = 0.1; // Very low but not muted
                 voiceMessage.play()
                     .then(() => {
                         playIcon.classList.replace("fa-play", "fa-pause");
@@ -177,33 +169,19 @@ function showMusicPopup() {
                         console.log('Voice message playback error:', error);
                         alert('Gagal memutar pesan suara. Pastikan browser mendukung audio.');
                     });
-            }, 200); // delay 200ms
-        } else {
-            voiceMessage.pause();
+            } else {
+                voiceMessage.pause();
+                bgMusic.volume = 1;
+                playIcon.classList.replace("fa-pause", "fa-play");
+                btnText.textContent = "Putar Pesan Suara";
+            }
+        });
+        
+        voiceMessage.addEventListener("ended", function() {
             bgMusic.volume = 1;
             playIcon.classList.replace("fa-pause", "fa-play");
             btnText.textContent = "Putar Pesan Suara";
-        }
-    });
-
-    voiceMessage.addEventListener("ended", function () {
-        bgMusic.volume = 1;
-        playIcon.classList.replace("fa-pause", "fa-play");
-        btnText.textContent = "Putar Pesan Suara";
-    });
-}
-        
-        // Handle video autoplay
-        const videoElement = document.querySelector('video');
-        if (videoElement) {
-            videoElement.addEventListener('play', function() {
-                // Pause background music when video plays
-                if (!bgMusic.paused) {
-                    bgMusic.pause();
-                    musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
-                }
-            });
-        }
+        });
     }
     
     // Typing animation
@@ -251,5 +229,3 @@ function showMusicPopup() {
     // Initialize the app
     init();
 });
-
-
