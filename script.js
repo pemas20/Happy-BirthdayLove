@@ -155,12 +155,18 @@ function showMusicPopup() {
     
     // Voice message control
  function setupVoiceMessage() {
-    voiceBtn.addEventListener("click", function() {
+    const voiceBtn = document.getElementById("voiceBtn");
+    const voiceMessage = document.getElementById("voiceMessage");
+    const bgMusic = document.getElementById("bgMusic");
+    const playIcon = document.getElementById("playIcon");
+    const btnText = document.getElementById("btnText");
+
+    voiceBtn.addEventListener("click", function () {
         if (voiceMessage.paused) {
-            // Turunkan volume lebih awal
+            // Turunkan volume backsound
             bgMusic.volume = 0.05;
 
-            // Tambahkan sedikit delay sebelum play
+            // Tambahkan sedikit delay sebelum memutar pesan suara
             setTimeout(() => {
                 voiceMessage.play()
                     .then(() => {
@@ -180,13 +186,12 @@ function showMusicPopup() {
         }
     });
 
-    voiceMessage.addEventListener("ended", function() {
+    voiceMessage.addEventListener("ended", function () {
         bgMusic.volume = 1;
         playIcon.classList.replace("fa-pause", "fa-play");
         btnText.textContent = "Putar Pesan Suara";
     });
 }
-    
         
         // Handle video autoplay
         const videoElement = document.querySelector('video');
