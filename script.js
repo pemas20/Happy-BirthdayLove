@@ -1,47 +1,47 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Variables
+    // Variabel
     let activeSection = 'home';
 
-    // Elements
-   const sections = document.querySelectorAll('.section');
+    // Elemen
+    const sections = document.querySelectorAll('.section');
     const navLinks = document.querySelectorAll('.menu a');
     const loadingScreen = document.querySelector('.loading-screen');
     const musicToggle = document.getElementById('music-toggle');
     const bgMusic = document.getElementById('bg-music');
-    const daysElement = document.getElementById('days');
-    const hoursElement = document.getElementById('hours');
-    const minutesElement = document.getElementById('minutes');
-    const secondsElement = document.getElementById('seconds');
+    const daysElement = document.getElementById('hari');
+    const hoursElement = document.getElementById('jam');
+    const minutesElement = document.getElementById('menit');
+    const secondsElement = document.getElementById('detik');
     const voiceMessage = document.getElementById('voice-message');
     const messageElement = document.querySelector('.message');
-    const voiceBtn = document.getElementById("voice-control");
-    const playIcon = document.getElementById("play-icon");
-    const btnText = document.getElementById("btn-text");
+    const voiceBtn = document.getElementById("kontrol-suara");
+    const playIcon = document.getElementById("ikon-putar");
+    const btnText = document.getElementById("teks-btn");
 
-    // Show music popup
+    // Tampilkan popup musik
     function showMusicPopup() {
-        const popup = document.getElementById('music-popup');
+        const popup = document.getElementById('popup-musik');
         if (!popup) return;
-        popup.classList.add('active');
+        popup.classList.add('aktif');
 
         document.getElementById('enable-music').onclick = () => {
             bgMusic.play()
                 .then(() => {
                     musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
-                    popup.classList.remove('active');
+                    popup.classList.remove('aktif');
                 })
                 .catch(e => {
-                    alert('Klik tombol speaker nanti yaa');
-                    popup.classList.remove('active');
+                    alert('Klik tombol speaker nanti');
+                    popup.classList.remove('aktif');
                 });
         };
 
-        document.getElementById('disable-music').onclick = () => {
-            popup.classList.remove('active');
+        document.getElementById('nonaktifkan-musik').onclick = () => {
+            popup.classList.remove('aktif');
         };
     }
 
-    // Navigation setup
+    // Fungsi pengaturan navigasi
     function setupNavigation() {
         navLinks.forEach(link => {
             link.addEventListener('click', function (e) {
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Countdown timer
+    // Penghitung waktu mundur
     function startCountdown() {
         const birthdayDate = new Date('May 13, 2025 00:00:00').getTime();
         updateCountdown();
@@ -85,13 +85,13 @@ document.addEventListener('DOMContentLoaded', function () {
             secondsElement.textContent = String(seconds).padStart(2, '0');
 
             if (distance < 0) {
-                document.querySelector('.countdown').innerHTML = '<h3>HAPPY BIRTHDAY SAYANGGKUUUU 🥳🎉💓</h3>';
+                document.querySelector('.countdown').innerHTML = '<h3>SELAMAT ULANG TAHUN SAYANGGKUUUU 🥳🎉💓</h3>';
                 triggerConfetti();
             }
         }
     }
 
-    // Music control
+    // Fungsi kontrol musik
     function setupMusicControl() {
         musicToggle.addEventListener('click', function () {
             if (bgMusic.paused) {
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
                     })
                     .catch(error => {
-                        console.log('Audio playback prevented:', error);
+                        console.log('Pemutaran audio dicegah:', error);
                     });
             } else {
                 bgMusic.pause();
@@ -109,58 +109,57 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // POPUP VIDEO
+    // Fungsi video popup
     function setupVideoPopup() {
         const video = document.querySelector('video');
         const popup = document.getElementById('video-popup');
 
         video.addEventListener('play', () => {
             if (!bgMusic.paused) {
-                popup.classList.add('active');
+                popup.classList.add('aktif');
             }
         });
 
-        document.getElementById('pause-for-video').onclick = () => {
+        document.getElementById('jeda-untuk-video').onclick = () => {
             bgMusic.pause();
             musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
-            popup.classList.remove('active');
+            popup.classList.remove('aktif');
         };
 
-        document.getElementById('continue-music').onclick = () => {
-            popup.classList.remove('active');
+        document.getElementById('lanjutkan-musik').onclick = () => {
+            popup.classList.remove('aktif');
         };
     }
 
     let isPlaying = false;
-voiceBtn.addEventListener('click', () => {
-    if (!isPlaying) {
-        // Kecilkan volume backsound
-        if (bgMusic && !bgMusic.paused) {
-            bgMusic.volume = 0.1; // Kecilkan volume backsound
+    voiceBtn.addEventListener('click', () => {
+        if (!isPlaying) {
+            // Kecilkan volume backsound
+            if (bgMusic && !bgMusic.paused) {
+                bgMusic.volume = 0.1; // Kecilkan backsound
+            }
+
+            // Mainkan suara narasi
+            voiceAudio.play();
+            playIcon.classList.remove('fa-play');
+            playIcon.classList.add('fa-pause');
+            btnText.textContent = 'Klik lagi untuk berhenti yaa...';
+            isPlaying = true;
+        } else {
+            // Kembalikan volume backsound
+            bgMusic.volume = 1.0;
+
+            // Hentikan suara narasi
+            voiceAudio.pause();
+            voiceAudio.currentTime = 0;
+            playIcon.classList.remove('fa-pause');
+            playIcon.classList.add('fa-play');
+            btnText.textContent = 'Bacanya sambil klik ini yaa...';
+            isPlaying = false;
         }
+    });
 
-        // Mainkan suara narasi
-        voiceAudio.play();
-        playIcon.classList.remove('fa-play');
-        playIcon.classList.add('fa-pause');
-        btnText.textContent = 'Klik lagi untuk berhenti yaa...';
-        isPlaying = true;
-    } else {
-        // Kembalikan volume backsound
-        bgMusic.volume = 1.0;
-
-        // Hentikan suara narasi
-        voiceAudio.pause();
-        voiceAudio.currentTime = 0;
-        playIcon.classList.remove('fa-pause');
-        playIcon.classList.add('fa-play');
-        btnText.textContent = 'Bacanya sambil klik ini yaa...';
-        isPlaying = false;
-    }
-});
-
-
-    // Typing animation
+    // Animasi ketikan
     function typeWriter(text, element, speed = 100) {
         let i = 0;
         element.textContent = '';
@@ -171,7 +170,7 @@ voiceBtn.addEventListener('click', () => {
         }, speed);
     }
 
-    // Floating hearts
+    // Hati mengambang
     function createFloatingHearts() {
         const heartsContainer = document.querySelector('.floating-hearts');
         const heartCount = 10;
@@ -190,7 +189,7 @@ voiceBtn.addEventListener('click', () => {
         }
     }
 
-    // Confetti trigger
+    // Pemicu konfeti
     function triggerConfetti() {
         if (typeof confetti === 'function') {
             confetti({
@@ -202,9 +201,9 @@ voiceBtn.addEventListener('click', () => {
         }
     }
 
-    // INIT
+    // Fungsi INIT
     function init() {
-        // Hide loading screen after 3 seconds
+        // Sembunyikan layar pemuatan setelah 3 detik
         setTimeout(() => {
             loadingScreen.style.opacity = '0';
             setTimeout(() => {
@@ -216,12 +215,11 @@ voiceBtn.addEventListener('click', () => {
         setupNavigation();
         startCountdown();
         setupMusicControl();
-        setupVoiceMessage();
         setupVideoPopup();
         typeWriter("Terima kasih telah menjadi wanita terbaik dalam hidupku", messageElement, 50);
         createFloatingHearts();
     }
 
-    // RUN INIT
+    // Jalankan INIT
     init();
 });
