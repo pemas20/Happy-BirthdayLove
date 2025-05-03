@@ -177,7 +177,7 @@ function showMusicPopup() {
     });
     
     voiceMessage.addEventListener("ended", function() {
-        bgMusic.volume = 1;
+        bgMusic.volume = 3;
         playIcon.classList.replace("fa-pause", "fa-play");
         btnText.textContent = "Putar Pesan Suara";
     });
