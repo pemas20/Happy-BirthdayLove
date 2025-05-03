@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let activeSection = 'home';
 
     // Elements
-    const sections = document.querySelectorAll('.section');
+   const sections = document.querySelectorAll('.section');
     const navLinks = document.querySelectorAll('.menu a');
     const loadingScreen = document.querySelector('.loading-screen');
     const musicToggle = document.getElementById('music-toggle');
@@ -132,12 +132,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     let isPlaying = false;
-
-voiceButton.addEventListener('click', () => {
+voiceBtn.addEventListener('click', () => {
     if (!isPlaying) {
         // Kecilkan volume backsound
         if (bgMusic && !bgMusic.paused) {
-            bgMusic.volume = 0.1; // Kecilkan backsound
+            bgMusic.volume = 0.1; // Kecilkan volume backsound
         }
 
         // Mainkan suara narasi
@@ -159,6 +158,7 @@ voiceButton.addEventListener('click', () => {
         isPlaying = false;
     }
 });
+
 
     // Typing animation
     function typeWriter(text, element, speed = 100) {
