@@ -154,33 +154,38 @@ function showMusicPopup() {
     }
     
     // Voice message control
-    function setupVoiceMessage() {
-        voiceBtn.addEventListener("click", function() {
-            if (voiceMessage.paused) {
-                bgMusic.volume = 0.1;
-            voiceMessage.play()
-                .then(() => {
-                    playIcon.classList.replace("fa-play", "fa-pause");
-                    btnText.textContent = "Jeda Pesan";
-                })
-                .catch(error => {
-                    console.log('Voice message playback error:', error);
-                    alert('Gagal memutar pesan suara. Pastikan browser mendukung audio.');
-                });
+ function setupVoiceMessage() {
+    voiceBtn.addEventListener("click", function() {
+        if (voiceMessage.paused) {
+            // Turunkan volume lebih awal
+            bgMusic.volume = 0.05;
+
+            // Tambahkan sedikit delay sebelum play
+            setTimeout(() => {
+                voiceMessage.play()
+                    .then(() => {
+                        playIcon.classList.replace("fa-play", "fa-pause");
+                        btnText.textContent = "Jeda Pesan";
+                    })
+                    .catch(error => {
+                        console.log('Voice message playback error:', error);
+                        alert('Gagal memutar pesan suara. Pastikan browser mendukung audio.');
+                    });
+            }, 200); // delay 200ms
         } else {
             voiceMessage.pause();
-            // Kembalikan volume normal
             bgMusic.volume = 1;
             playIcon.classList.replace("fa-pause", "fa-play");
             btnText.textContent = "Putar Pesan Suara";
         }
     });
-    
+
     voiceMessage.addEventListener("ended", function() {
-        bgMusic.volume = 3;
+        bgMusic.volume = 1;
         playIcon.classList.replace("fa-pause", "fa-play");
         btnText.textContent = "Putar Pesan Suara";
     });
+}
     
         
         // Handle video autoplay
