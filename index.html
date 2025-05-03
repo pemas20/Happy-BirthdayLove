@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untuk Sayangku</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<!-- Popup Backsound Awal -->
+<div id="music-popup" class="popup-container">
+    <div class="popup-content">
+      <h3>Nyalakan backsound?</h3>
+      <p>nyalain backsound yaa sayangkuu ❤️</p>
+      <div class="popup-buttons">
+        <button id="enable-music">Ya, nyalakan</button>
+        <button id="disable-music">Nanti dulu</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Popup Video -->
+  <div id="video-popup" class="popup-container">
+    <div class="popup-content">
+      <h3>Mau nonton video?</h3>
+      <p>Matikan backsound dulu biar suara videonya jelas yaa sayangkuu ❤️</p>
+      <div class="popup-buttons">
+        <button id="pause-for-video">Matikan backsound</button>
+        <button id="continue-music">Tetap nyala</button>
+      </div>
+    </div>
+  </div>
+
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="loading-content">
+            <div class="heart-loader"></div>
+            <h2>Tunggu yaa sayanggkuu..</h2>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="menu">
+        <ul>
+            <li><a href="#home" class="active">Beranda</a></li>
+            <li><a href="#gallery">Galeri</a></li>
+            <li><a href="#message">Pesan</a></li>
+            <li><a href="#video">Video</a></li>
+        </ul>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="section active">
+        <div class="container">
+            <div class="birthday-card">
+                <h1>Selamat Ulang Tahun</h1>
+                <div class="name">Sayangku</div>
+                <div class="date">13 Mei 2025</div>
+                
+                <div class="countdown">
+                    <div class="time">
+                        <span id="days">00</span>
+                        <p>Hari</p>
+                    </div>
+                    <div class="time">
+                        <span id="hours">00</span>
+                        <p>Jam</p>
+                    </div>
+                    <div class="time">
+                        <span id="minutes">00</span>
+                        <p>Menit</p>
+                    </div>
+                    <div class="time">
+                        <span id="seconds">00</span>
+                        <p>Detik</p>
+                    </div>
+                </div>
+                
+                <div class="cake-container">
+                    <div class="cake">
+                        <div class="candle"></div>
+                        <div class="flame"></div>
+                        <div class="icing"></div>
+                        <div class="layer layer-top"></div>
+                        <div class="layer layer-middle"></div>
+                        <div class="layer layer-bottom"></div>
+                    </div>
+                </div>
+                
+                <p class="message"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="section">
+        <div class="container">
+            <h2 class="section-title">Cantikku</h2>
+            
+            <div class="mobile-photo-group">
+                <div class="mobile-photo-pair">
+                    <div class="mobile-photo-item">
+                        <img src="widia1.jpg" alt="Foto 1">
+                        <p class="mobile-photo-caption">Liat deh mata kamu, cantik yaa?!!</p>
+                    </div>
+                    <div class="mobile-photo-item">
+                        <img src="widia2.jpg" alt="Foto 2">
+                        <p class="mobile-photo-caption">Apalagi bibir kamuu, aduhh gemesss >_<</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mobile-photo-group">
+                <div class="mobile-photo-pair">
+                    <div class="mobile-photo-item">
+                        <img src="widia5.jpg" alt="Foto 3">
+                        <p class="mobile-photo-caption">tatapan kamuuu bikin aku melelehh dehhh</p>
+                    </div>
+                    <div class="mobile-photo-item">
+                        <img src="widia6.jpg" alt="Foto 4">
+                        <p class="mobile-photo-caption">ini juga, CANTIK BGTT SIHHH??!!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mobile-photo-group">
+                <div class="mobile-photo-pair">
+                    <div class="mobile-photo-item">
+                        <img src="widia3.jpg" alt="Foto 5">
+                        <p class="mobile-photo-caption">TAU GA SIHH INI BIKIN AKU PINGSANNNN</p>
+                    </div>
+                    <div class="mobile-photo-item">
+                        <img src="widia4.jpg" alt="Foto 6">
+                        <p class="mobile-photo-caption">jadii sayangg banget liat cewe secantikk iniii</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+
+    <!-- Message Section -->
+    <section id="message" class="section">
+        <div class="container">
+            <h2 class="section-title">Pesanku</h2>
+            
+            <div class="message-wrapper">
+                <button class="voice-btn" id="voice-control">
+                    <i class="fas fa-play" id="play-icon"></i>
+                    <span id="btn-text">Bacanya sambil klik ini yaa...</span>
+                </button>
+                <audio id="voice-message" src="suaraku.mp3"></audio>
+                
+                <div class="message-card">
+                    <div class="message-content">
+                        <h3>Untuk Sayangku</h3>
+                        <div class="message-text">
+                            <p>Haloo sayanggg.. ciee ciee umurnya udaa 19 tahunn bentar lagi 20 nichh udah tuaa hahahha.</p>
+                            <p>Aku cuma pengen berdoa sama Allah semoga kamu dikasi umur yang panjang, dikasii rejeki yang melimpahh, sayang keluarga dan sayang sama aku selamanyaa..</p>
+                            <p>Maafin akuu yaa selama ini bikin kamu sedih terus, bikin kamu semarah itu sama aku, belom bisa ngabulin apa yang kamu mau, masih jauh dari kata sempurna, sayangg.. aku sayang banget sama kamu..aku gaada niatan buat nyakitin kamu sama sekali, aku bener bener sayang sama kamu..maafin aku yaa..</p>
+                            <p>SEKALI LAGI HAPPY BIRTHDAY SAYANGGKUU CINTAKUU DUNIAKUUUUUUUU <3333333</p>
+                        </div>
+                        <div class="signature">
+                            <p class="sign">Dibuat dengan cinta,</p>
+                            <p>Vemas</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <!-- Video Section -->
+<section id="video" class="section">
+    <div class="video-bg-overlay"></div>
+    <div class="container">
+        <h2 class="section-title">Video akuu</h2>
+        
+        <div class="video-wrapper">
+            <div class="video-container">
+                <div class="video-frame">
+                    <video controls poster="assets/video/poster.jpg">
+                        <source src="vidio.mp4" type="video/mp4">
+                        Browser Anda tidak mendukung tag video.
+                    </video>
+                    <div class="video-glare"></div>
+                </div>
+            </div>
+            <p class="video-caption">HEHHEEH semogaa dengan surprise aku ini kamuu sukaa yaa sayanggg >_<</p>
+        </div>
+        
+        <div class="video-hearts">
+            <div class="heart"></div>
+            <div class="heart"></div>
+            <div class="heart"></div>
+        </div>
+    </div>
+</section>
+
+    <!-- Audio Control -->
+    <div class="audio-control">
+        <button id="music-toggle" class="music-btn">
+            <i class="fas fa-volume-mute"></i>
+        </button>
+        <audio id="bg-music" loop src="musik.mp3"></audio>
+    </div>
+
+    <!-- Confetti JS -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
