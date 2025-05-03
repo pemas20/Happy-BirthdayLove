@@ -1,8 +1,6 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // Variabel
-    let activeSection = 'home';
+document.addEventListener('DOMContentLoaded', function () { 
+    let activeSection = 'home'; 
 
-    // Elemen
     const sections = document.querySelectorAll('.section');
     const navLinks = document.querySelectorAll('.menu a');
     const loadingScreen = document.querySelector('.loading-screen');
@@ -18,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const playIcon = document.getElementById("ikon-putar");
     const btnText = document.getElementById("teks-btn");
 
-    // Tampilkan popup musik
     function showMusicPopup() {
         const popup = document.getElementById('popup-musik');
         if (!popup) return;
@@ -41,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     }
 
-    // Fungsi pengaturan navigasi
     function setupNavigation() {
         navLinks.forEach(link => {
             link.addEventListener('click', function (e) {
@@ -64,7 +60,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Penghitung waktu mundur
     function startCountdown() {
         const birthdayDate = new Date('May 13, 2025 00:00:00').getTime();
         updateCountdown();
@@ -91,7 +86,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Fungsi kontrol musik
     function setupMusicControl() {
         musicToggle.addEventListener('click', function () {
             if (bgMusic.paused) {
@@ -109,7 +103,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Fungsi video popup
     function setupVideoPopup() {
         const video = document.querySelector('video');
         const popup = document.getElementById('video-popup');
@@ -134,22 +127,17 @@ document.addEventListener('DOMContentLoaded', function () {
     let isPlaying = false;
     voiceBtn.addEventListener('click', () => {
         if (!isPlaying) {
-            // Kecilkan volume backsound
             if (bgMusic && !bgMusic.paused) {
-                bgMusic.volume = 0.1; // Kecilkan backsound
+                bgMusic.volume = 0.1;
             }
 
-            // Mainkan suara narasi
             voiceAudio.play();
             playIcon.classList.remove('fa-play');
             playIcon.classList.add('fa-pause');
             btnText.textContent = 'Klik lagi untuk berhenti yaa...';
             isPlaying = true;
         } else {
-            // Kembalikan volume backsound
             bgMusic.volume = 1.0;
-
-            // Hentikan suara narasi
             voiceAudio.pause();
             voiceAudio.currentTime = 0;
             playIcon.classList.remove('fa-pause');
@@ -159,7 +147,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Animasi ketikan
     function typeWriter(text, element, speed = 100) {
         let i = 0;
         element.textContent = '';
@@ -170,7 +157,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }, speed);
     }
 
-    // Hati mengambang
     function createFloatingHearts() {
         const heartsContainer = document.querySelector('.floating-hearts');
         const heartCount = 10;
@@ -189,7 +175,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Pemicu konfeti
     function triggerConfetti() {
         if (typeof confetti === 'function') {
             confetti({
@@ -201,9 +186,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Fungsi INIT
     function init() {
-        // Sembunyikan layar pemuatan setelah 3 detik
         setTimeout(() => {
             loadingScreen.style.opacity = '0';
             setTimeout(() => {
@@ -220,6 +203,5 @@ document.addEventListener('DOMContentLoaded', function () {
         createFloatingHearts();
     }
 
-    // Jalankan INIT
     init();
 });
