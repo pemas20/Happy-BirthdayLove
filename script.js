@@ -32,6 +32,12 @@ document.addEventListener('DOMContentLoaded', function() {
             showMusicPopup();
         }, 3500);
 
+          loadingScreen.style.display = 'none';
+        showMusicPopup(); 
+      }, 500);
+    }, 3000);
+  }
+
         // Setup navigation
         setupNavigation();
         
@@ -53,26 +59,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Show music popup
     function showMusicPopup() {
-        const musicPopup = document.getElementById('music-popup');
-        musicPopup.classList.add('active');
-        
-        document.getElementById('enable-music').addEventListener('click', function() {
-            bgMusic.muted = false;
-            bgMusic.play()
-                .then(() => {
-                    musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
-                    musicPopup.classList.remove('active');
-                })
-                .catch(error => {
-                    console.log('Audio playback error:', error);
-                    musicPopup.classList.remove('active');
-                });
-        });
-        
-        document.getElementById('disable-music').addEventListener('click', function() {
-            musicPopup.classList.remove('active');
-        });
-    }
+  const popup = document.getElementById('music-popup');
+  if (!popup) return; // Pastikan popup ada
+  
+  popup.style.display = 'flex';
+  
+  document.getElementById('enable-music').onclick = () => {
+    bgMusic.play()
+      .then(() => {
+        popup.style.display = 'none';
+      })
+      .catch(e => {
+        console.error("Audio error:", e);
+        popup.style.display = 'none';
+      });
+  };
+  
+  document.getElementById('disable-music').onclick = () => {
+    popup.style.display = 'none';
+  };
+}
 
     // Navigation setup
     function setupNavigation() {
