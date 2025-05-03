@@ -157,7 +157,7 @@ function showMusicPopup() {
     function setupVoiceMessage() {
         voiceBtn.addEventListener("click", function() {
             if (voiceMessage.paused) {
-                bgMusic.volume = 0.3;
+                bgMusic.volume = 0.1;
             voiceMessage.play()
                 .then(() => {
                     playIcon.classList.replace("fa-play", "fa-pause");
