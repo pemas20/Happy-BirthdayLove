@@ -1,239 +1,184 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Variables
-    let activeSection = 'home';
-    
-    // Elements
+document.addEventListener('DOMContentLoaded', function () {
     const sections = document.querySelectorAll('.section');
     const navLinks = document.querySelectorAll('.menu a');
     const loadingScreen = document.querySelector('.loading-screen');
     const musicToggle = document.getElementById('music-toggle');
     const bgMusic = document.getElementById('bg-music');
-    const daysElement = document.getElementById('days');
-    const hoursElement = document.getElementById('hours');
-    const minutesElement = document.getElementById('minutes');
-    const secondsElement = document.getElementById('seconds');
+    const daysEl = document.getElementById('days');
+    const hoursEl = document.getElementById('hours');
+    const minutesEl = document.getElementById('minutes');
+    const secondsEl = document.getElementById('seconds');
     const voiceMessage = document.getElementById('voice-message');
-    const messageElement = document.querySelector('.message');
-    const voiceBtn = document.getElementById("voice-control");
-    const playIcon = document.getElementById("play-icon");
-    const btnText = document.getElementById("btn-text");
-
-    // Initialize
-    function init() {
-        // Hide loading screen after 3 seconds
-        setTimeout(() => {
-            loadingScreen.style.opacity = '0';
-
-        setTimeout(() => {
-            showMusicPopup();
-        }, 3500); // Setelah loading screen hilang
-
-        // Setup navigation
-        setupNavigation();
-        
-        // Start countdown
-        startCountdown();
-        
-        // Setup music control
-        setupMusicControl();
-        
-        // Setup voice message
-        setupVoiceMessage();
-        
-        // Typing animation for message
-        typeWriter("Terima kasih telah menjadi wanita terbaik dalam hidupku", messageElement, 50);
-        
-        // Create floating hearts
-        createFloatingHearts();
-    }
-
-    // Fungsi baru untuk popup musik
+    const voiceBtn = document.getElementById('voice-control');
+    const playIcon = document.getElementById('play-icon');
+    const btnText = document.getElementById('btn-text');
+    const messageEl = document.querySelector('.message');
+  
+    // Init
+    setTimeout(() => {
+      loadingScreen.style.opacity = '0';
+      setTimeout(() => {
+        loadingScreen.style.display = 'none';
+        showMusicPopup();
+      }, 500);
+    }, 3000);
+  
+    navLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const target = link.getAttribute('href').slice(1);
+  
+        navLinks.forEach(nav => nav.classList.remove('active'));
+        sections.forEach(sec => sec.classList.remove('active'));
+  
+        link.classList.add('active');
+        document.getElementById(target)?.classList.add('active');
+        window.scrollTo(0, 0);
+  
+        if (target === 'home') triggerConfetti();
+      });
+    });
+  
     function showMusicPopup() {
-        const musicPopup = document.getElementById('music-popup');
-        musicPopup.classList.add('active');
-        
-        document.getElementById('enable-music').addEventListener('click', function() {
-            bgMusic.play()
-                .then(() => {
-                    musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
-                    musicPopup.classList.remove('active');
-                })
-                .catch(error => {
-                    console.log('Audio playback error:', error);
-                    musicPopup.classList.remove('active');
-                });
+      const popup = document.getElementById('music-popup');
+      if (!popup) return;
+      popup.classList.add('active');
+  
+      document.getElementById('enable-music')?.addEventListener('click', () => {
+        bgMusic.play().then(() => {
+          musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+          popup.classList.remove('active');
+        }).catch(() => {
+          popup.classList.remove('active');
+          alert('Klik tombol speaker untuk mengaktifkan audio.');
         });
-        
-        document.getElementById('disable-music').addEventListener('click', function() {
-            musicPopup.classList.remove('active');
-        });
+      });
+  
+      document.getElementById('disable-music')?.addEventListener('click', () => {
+        popup.classList.remove('active');
+      });
     }
-
-    // Navigation setup
-    function setupNavigation() {
-        navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetSection = this.getAttribute('href').slice(1);
-                
-                // Remove active class from all links and sections
-                navLinks.forEach(navLink => navLink.classList.remove('active'));
-                sections.forEach(section => section.classList.remove('active'));
-                
-                // Add active class to clicked link and target section
-                this.classList.add('active');
-                document.getElementById(targetSection).classList.add('active');
-                
-                // Update active section
-                activeSection = targetSection;
-                
-                // Scroll to top
-                window.scrollTo(0, 0);
-                
-                // Trigger confetti when going to home section
-                if (targetSection === 'home') {
-                    triggerConfetti();
-                }
-            });
+  
+    musicToggle?.addEventListener('click', () => {
+      if (bgMusic.paused) {
+        bgMusic.play().then(() => {
+          musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+        }).catch(() => {
+          alert('Izinkan audio untuk memutar musik.');
         });
+      } else {
+        bgMusic.pause();
+        musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
+      }
+    });
+  
+    if (voiceBtn) {
+      voiceBtn.addEventListener('click', () => {
+        if (voiceMessage.paused) {
+          bgMusic.volume = 0.1;
+          voiceMessage.play().then(() => {
+            playIcon.classList.replace('fa-play', 'fa-pause');
+            btnText.textContent = 'Jeda Pesan';
+          });
+        } else {
+          voiceMessage.pause();
+          bgMusic.volume = 1;
+          playIcon.classList.replace('fa-pause', 'fa-play');
+          btnText.textContent = 'Putar Pesan Suara';
+        }
+      });
+  
+      voiceMessage.addEventListener('ended', () => {
+        bgMusic.volume = 1;
+        playIcon.classList.replace('fa-pause', 'fa-play');
+        btnText.textContent = 'Putar Pesan Suara';
+      });
     }
-    
-    // Countdown timer
+  
+    document.querySelector('video')?.addEventListener('play', () => {
+      if (!bgMusic.paused) {
+        document.getElementById('video-popup')?.classList.add('active');
+      }
+    });
+  
+    document.getElementById('pause-for-video')?.addEventListener('click', () => {
+      bgMusic.pause();
+      musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
+      document.getElementById('video-popup')?.classList.remove('active');
+    });
+  
+    document.getElementById('continue-music')?.addEventListener('click', () => {
+      document.getElementById('video-popup')?.classList.remove('active');
+    });
+  
     function startCountdown() {
-        // Birthday date: May 13, 2025
-        const birthdayDate = new Date('May 13, 2025 00:00:00').getTime();
-        
-        // Update countdown every second
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-        
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = birthdayDate - now;
-            
-            // Time calculations
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
-            // Update elements
-            daysElement.textContent = String(days).padStart(2, '0');
-            hoursElement.textContent = String(hours).padStart(2, '0');
-            minutesElement.textContent = String(minutes).padStart(2, '0');
-            secondsElement.textContent = String(seconds).padStart(2, '0');
-            
-            // If birthday has arrived
-            if (distance < 0) {
-                document.querySelector('.countdown').innerHTML = '<h3>HAPPY BIRTHDAY SAYANGGKUUUU 🥳🎉💓</h3>';
-                triggerConfetti();
-            }
+      const target = new Date('2025-05-13T00:00:00').getTime();
+      setInterval(() => {
+        const now = Date.now();
+        const diff = target - now;
+  
+        if (diff <= 0) {
+          document.querySelector('.countdown').innerHTML = '<h3>HAPPY BIRTHDAY SAYANGGKUUUU 🥳🎉💓</h3>';
+          triggerConfetti();
+          return;
         }
+  
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+  
+        daysEl.textContent = String(d).padStart(2, '0');
+        hoursEl.textContent = String(h).padStart(2, '0');
+        minutesEl.textContent = String(m).padStart(2, '0');
+        secondsEl.textContent = String(s).padStart(2, '0');
+      }, 1000);
     }
-    
-    // Music control
-    function setupMusicControl() {
-        musicToggle.addEventListener('click', function() {
-            if (bgMusic.paused) {
-                bgMusic.play()
-                    .then(() => {
-                        musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
-                    })
-                    .catch(error => {
-                        console.log('Audio playback prevented:', error);
-                    });
-            } else {
-                bgMusic.pause();
-                musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
-            }
-        });
-    }
-    
-    // Voice message control
-    function setupVoiceMessage() {
-        voiceBtn.addEventListener("click", function() {
-            if (voiceMessage.paused) {
-                bgMusic.volume = 0.1;
-                voiceMessage.play()
-                    .then(() => {
-                        playIcon.classList.replace("fa-play", "fa-pause");
-                        btnText.textContent = "Jeda Pesan";
-                    })
-                    .catch(error => {
-                        console.log('Voice message playback error:', error);
-                        alert('Gagal memutar pesan suara. Pastikan browser mendukung audio.');
-                    });
-            } else {
-                voiceMessage.pause();
-                // Kembalikan volume normal
-                bgMusic.volume = 1;
-                playIcon.classList.replace("fa-pause", "fa-play");
-                btnText.textContent = "Putar Pesan Suara";
-            }
-        });
-        
-        voiceMessage.addEventListener("ended", function() {
-            bgMusic.volume = 1;
-            playIcon.classList.replace("fa-pause", "fa-play");
-            btnText.textContent = "Putar Pesan Suara";
-        });
-        
-        // Handle video autoplay
-        const videoElement = document.querySelector('video');
-        if (videoElement) {
-            videoElement.addEventListener('play', function() {
-                // Pause background music when video plays
-                if (!bgMusic.paused) {
-                    bgMusic.pause();
-                    musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
-                }
-            });
-        }
-    }
-    
-    // Typing animation
-    function typeWriter(text, element, speed = 100) {
-        let i = 0;
-        element.textContent = '';
-        const typing = setInterval(() => {
-            element.textContent += text[i];
-            i++;
-            if (i === text.length) clearInterval(typing);
-        }, speed);
-    }
-    
-    // Create floating hearts
-    function createFloatingHearts() {
-        const heartsContainer = document.querySelector('.floating-hearts');
-        const heartCount = 10;
-        
-        for (let i = 0; i < heartCount; i++) {
-            const heart = document.createElement('div');
-            heart.innerHTML = '❤';
-            heart.style.position = 'absolute';
-            heart.style.color = `rgba(139, 0, 0, ${Math.random() * 0.3 + 0.1})`;
-            heart.style.fontSize = `${Math.random() * 20 + 10}px`;
-            heart.style.left = `${Math.random() * 100}%`;
-            heart.style.top = `${Math.random() * 100}%`;
-            heart.style.animation = `float ${Math.random() * 6 + 4}s infinite ease-in-out`;
-            heart.style.animationDelay = `${Math.random() * 5}s`;
-            heartsContainer.appendChild(heart);
-        }
-    }
-    
-    // Trigger confetti
+  
     function triggerConfetti() {
-        if (typeof confetti === 'function') {
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#8b0000', '#ff6b6b', '#f8a5c2']
-            });
-        }
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 100,
+          spread: 60,
+          origin: { y: 0.7 },
+          colors: ['#ff6b6b', '#f8a5c2', '#8b0000']
+        });
+      }
     }
-    
-    // Initialize the app
-    init();
-});
+  
+    function typeWriter(text, element, speed = 60) {
+      let i = 0;
+      element.textContent = '';
+      const interval = setInterval(() => {
+        if (i < text.length) {
+          element.textContent += text[i++];
+        } else {
+          clearInterval(interval);
+        }
+      }, speed);
+    }
+  
+    function createFloatingHearts() {
+      const container = document.querySelector('.floating-hearts');
+      if (!container) return;
+      for (let i = 0; i < 10; i++) {
+        const heart = document.createElement('div');
+        heart.innerHTML = '❤';
+        heart.style.cssText = `
+          position:absolute;
+          font-size:${Math.random() * 20 + 10}px;
+          left:${Math.random() * 100}%;
+          top:${Math.random() * 100}%;
+          color:rgba(139,0,0,${Math.random() * 0.5 + 0.2});
+          animation: float ${Math.random() * 6 + 4}s ease-in-out infinite;
+          animation-delay:${Math.random() * 5}s;
+        `;
+        container.appendChild(heart);
+      }
+    }
+  
+    startCountdown();
+    typeWriter("Terima kasih telah menjadi wanita terbaik dalam hidupku", messageEl);
+    createFloatingHearts();
+  });
+  
